@@ -1,0 +1,6 @@
+#Keeping things easy with a wildcard cert for this example
+
+openssl genrsa 8192 > container.key
+openssl req -new -x509 -nodes -sha256 -days 365 -key container.key > container.crt
+openssl x509 -noout -fingerprint -text < container.crt > container.info
+cat container.crt container.key > container.pem

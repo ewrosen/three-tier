@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+    nginx:
+        container_name: nginx_reverseproxy
+        build: ./reverseproxy/
+        networks:
+            - docker-network
+        ports:
+            - 80:80
+            - 443:443
+
+    nginx2:
+        container_name: nginx_frontend
+        build: ./frontend/
+        networks:
+            - docker-network
+        expose:
+           - 5080
+           - 5443
+
+    nginx3:
+        container_name: nginx_backend
+        build: ./backend/
+        networks:
+            - docker-network
+        expose:
+            - 443
+
+networks:
+    docker-network:
