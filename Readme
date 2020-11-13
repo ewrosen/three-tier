@@ -1,0 +1,29 @@
+This is a simple read me file for a three tier NGINX example
+
+Intro
+- This example is composed of a docker-compose file at the root of this repository and three directories.  The three directories contain dockerfiles and relevant configs for each container.  
+- Containers are as follows
+ - reverse-proxy
+   - handles all incoming http/https request associated with url "containers"
+ - front-end
+   - Authenticates users to https://container/mysecretkey
+   - Passes testuser to backend server hosting secret info at https://container/secretfiles after authentication
+   - Hosts https://container/ 
+   - Hosts https://container/fallback for any other uri requests
+ - back-end
+   - Hosts secrets at https://containers/secretfiles
+
+Getting started
+- Pull down this repo
+- add "container" to /etc/hosts to resolve to localhost "127.0.0.1       container"
+- To build this example you just need to run the docker-compose file in the base directory.  This docker-compose file will call the Dockerfile in each subdirectory and build everything needed
+ - docker-compose up --build -d
+
+Testing
+- browse to https://container/mysecretkey to test auth and access to secret backend server
+- browse to http://container/ to test http to https 
+- browse to https//container/foo/foo to test uri cleanup
+
+Authentication information
+- http auth user:testuser password:testuser
+- http static token is uri mysecretkey https://container/mysecretkey
